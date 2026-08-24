@@ -3,12 +3,12 @@ from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 import os
 
 try:
-    # Connect to PostgreSQL server (default database 'postgres')
+    # Connect to PostgreSQL server (default database 'postgres' or specific)
     conn = psycopg2.connect(
         host=os.environ.get('DB_HOST', '127.0.0.1'),
-        user="postgres",
-        password="9555805060",
-        dbname="postgres"
+        user=os.environ.get('DB_USER', 'postgres'),
+        password=os.environ.get('DB_PASSWORD', '9555805060'),
+        dbname=os.environ.get('DB_NAME', 'postgres')
     )
     conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
     cursor = conn.cursor()
@@ -28,9 +28,9 @@ try:
     # Connect to the new database
     conn = psycopg2.connect(
         host=os.environ.get('DB_HOST', '127.0.0.1'),
-        user="postgres",
-        password="9555805060",
-        dbname="ml_project"
+        user=os.environ.get('DB_USER', 'postgres'),
+        password=os.environ.get('DB_PASSWORD', '9555805060'),
+        dbname=os.environ.get('DB_NAME', 'ml_project')
     )
     cursor = conn.cursor()
 
