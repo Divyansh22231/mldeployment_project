@@ -8,6 +8,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultContainer = document.getElementById('result-container');
     const resultBadge = document.getElementById('result-badge');
     const resultText = document.getElementById('result-text');
+    
+    // Interactive Orbs (Follow Mouse)
+    const orbs = document.querySelectorAll('.orb');
+    document.addEventListener('mousemove', (e) => {
+        const x = e.clientX / window.innerWidth;
+        const y = e.clientY / window.innerHeight;
+        
+        orbs.forEach((orb, index) => {
+            const speed = (index + 1) * 20;
+            const xOffset = (x - 0.5) * speed;
+            const yOffset = (y - 0.5) * speed;
+            orb.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+        });
+    });
+
+    // Dynamic Button State
+    hoursInput.addEventListener('input', () => {
+        if (hoursInput.value > 0) {
+            submitBtn.classList.add('ready');
+        } else {
+            submitBtn.classList.remove('ready');
+        }
+    });
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -21,10 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.disabled = true;
         resultContainer.classList.add('hidden');
         resultBadge.className = ''; // reset classes
+        resultContainer.classList.remove('shake-animation'); // reset shake
 
         try {
-            // Call the existing FastAPI endpoint
-            // Notice how we pass hours as a query parameter because that's what the backend expects
             const response = await fetch(`/prediction?hours=${encodeURIComponent(hours)}`, {
                 method: 'POST',
             });
@@ -35,17 +57,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
             
-            // Handle Response (e.g. {"prediction": 1.0, "status": "Pass"})
+            // Show Result container so animation can trigger
+            resultContainer.classList.remove('hidden');
+
             if (data.status.toLowerCase() === 'pass') {
                 resultBadge.classList.add('pass');
-                resultText.textContent = 'Pass';
+                resultText.textContent = 'PASS 🎉';
+                
+                // Trigger Confetti
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#238636', '#58a6ff', '#ffffff']
+                });
             } else {
                 resultBadge.classList.add('fail');
-                resultText.textContent = 'Fail';
+                resultText.textContent = 'FAIL 💀';
+                
+                // Trigger Shake Effect
+                resultContainer.classList.add('shake-animation');
             }
-
-            // Show Result
-            resultContainer.classList.remove('hidden');
             
         } catch (error) {
             console.error('Error during prediction:', error);

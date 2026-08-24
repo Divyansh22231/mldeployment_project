@@ -46,6 +46,7 @@ body {
     filter: blur(80px);
     opacity: 0.5;
     animation: float 15s infinite alternate ease-in-out;
+    transition: transform 0.2s ease-out; /* For mouse interaction */
 }
 
 .orb-1 {
@@ -182,6 +183,16 @@ button:hover {
     box-shadow: 0 10px 20px -10px rgba(255,255,255,0.3);
 }
 
+button.ready {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 15px var(--accent-glow);
+}
+
+button.ready:hover {
+    box-shadow: 0 0 25px var(--accent-glow);
+}
+
 button:active {
     transform: translateY(0);
 }
@@ -253,4 +264,15 @@ button:active {
     font-size: 0.75rem;
     color: var(--text-muted);
     opacity: 0.6;
+}
+
+/* Shake Animation for Fail */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+    20%, 40%, 60%, 80% { transform: translateX(10px); }
+}
+
+.shake-animation {
+    animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both;
 }
