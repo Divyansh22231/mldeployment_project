@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Exam Predictor</title>
+    <!-- Modern Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    
+    <div class="background-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <main class="glass-container">
+        <header>
+            <h1>AI Exam Predictor</h1>
+            <p>Will you pass the exam? Let the machine learning model decide based on your study hours.</p>
+        </header>
+
+        <form id="prediction-form">
+            <div class="input-group">
+                <label for="hours">Study Hours</label>
+                <div class="input-wrapper">
+                    <input type="number" id="hours" name="hours" step="0.1" min="0" max="100" placeholder="e.g. 5.5" required>
+                    <span class="suffix">hrs</span>
+                </div>
+            </div>
+            <button type="submit" id="submit-btn">
+                <span class="btn-text">Predict Now</span>
+                <div class="spinner hidden"></div>
+            </button>
+        </form>
+
+        <div id="result-container" class="hidden">
+            <h2 class="result-label">Prediction Result</h2>
+            <div id="result-badge" class="">
+                <span id="result-text">Pass</span>
+            </div>
+            <p class="disclaimer">Based on Logistic Regression Model</p>
+        </div>
+    </main>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

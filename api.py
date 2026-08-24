@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 import joblib
 import pandas as pd
 import psycopg2
@@ -10,6 +12,9 @@ import os
 
 app=FastAPI()  #initialization of fast api class
 
+# Mount the static directory
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 model=joblib.load("model.pkl")  #loading the model from the pickle file
 
 # we write logic on fuction
@@ -18,7 +23,7 @@ model=joblib.load("model.pkl")  #loading the model from the pickle file
 
 @app.get("/")  #get method
 def testing():
-    return {"test":"all ok"}
+    return FileResponse("static/index.html")
 
 @app.post("/prediction")
 def myprediction(hours:float):
