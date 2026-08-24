@@ -13,14 +13,20 @@ try:
     conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
     cursor = conn.cursor()
 
+    # Get the target database name
+    target_db = os.environ.get('DB_NAME', 'ml_project')
+
     # Create database if it doesn't exist
-    cursor.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = 'ml_project'")
+    cursor.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (target_db,))
     exists = cursor.fetchone()
     if not exists:
-        cursor.execute("CREATE DATABASE ml_project")
-        print("Database 'ml_project' checked/created.")
+        try:
+            cursor.execute(f"CREATE DATABASE {target_db}")
+            print(f"Database '{target_db}' checked/created.")
+        except psycopg2.Error as e:
+            print(f"Could not create database (this is normal on Render): {e}")
     else:
-        print("Database 'ml_project' already exists.")
+        print(f"Database '{target_db}' already exists.")
         
     cursor.close()
     conn.close()
