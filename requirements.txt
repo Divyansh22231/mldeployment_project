@@ -2,5 +2,5 @@ fastapi
 uvicorn
 joblib
 pandas
-mysql-connector-python
+psycopg2-binary
 scikit-learn

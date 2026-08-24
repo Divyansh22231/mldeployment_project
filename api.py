@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 import joblib
 import pandas as pd
-import mysql.connector
+import psycopg2
+import os
 
 #app = object and fast api - constructor    we usse this because without initialization we 
 # cant access fastapi methods
@@ -37,11 +38,11 @@ def myprediction(hours:float):
         print("Fail")
 
     try:
-        conn = mysql.connector.connect(
-            host="127.0.0.1",
-            user="root",
+        conn = psycopg2.connect(
+            host=os.environ.get('DB_HOST', '127.0.0.1'),
+            user="postgres",
             password="9555805060",
-            database="ml_project"
+            dbname="ml_project"
         )
         cursor = conn.cursor()
         
@@ -51,12 +52,12 @@ def myprediction(hours:float):
         conn.commit()
         print("Prediction saved to database successfully!")
         
-    except mysql.connector.Error as err:
+    except psycopg2.Error as err:
         print(f"Database error: {err}")
     finally:
-        if 'cursor' in locals():
+        if 'cursor' in locals() and not cursor.closed:
             cursor.close()
-        if 'conn' in locals() and conn.is_connected():
+        if 'conn' in locals() and not conn.closed:
             conn.close()
 
     return {"prediction": float(mynewdata[0]), "status": result}
