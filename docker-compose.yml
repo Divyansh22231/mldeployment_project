@@ -20,6 +20,9 @@ services:
       - db
     environment:
       - DB_HOST=db
+      - DB_USER=postgres
+      - DB_PASSWORD=9555805060
+      - DB_NAME=ml_project
 
 volumes:
   postgres_data:
