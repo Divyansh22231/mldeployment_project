@@ -5,6 +5,9 @@ import joblib
 import pandas as pd
 import psycopg2
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 #app = object and fast api - constructor    we usse this because without initialization we 
 # cant access fastapi methods
@@ -46,7 +49,7 @@ def myprediction(hours:float):
         conn = psycopg2.connect(
             host=os.environ.get('DB_HOST', '127.0.0.1'),
             user=os.environ.get('DB_USER', 'postgres'),
-            password=os.environ.get('DB_PASSWORD', '9555805060'),
+            password=os.environ.get('DB_PASSWORD'),
             dbname=os.environ.get('DB_NAME', 'ml_project')
         )
         cursor = conn.cursor()

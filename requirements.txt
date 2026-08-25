@@ -4,3 +4,4 @@ joblib
 pandas
 psycopg2-binary
 scikit-learn
+python-dotenv

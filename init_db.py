@@ -1,13 +1,16 @@
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 try:
     # Connect to PostgreSQL server (default database 'postgres' or specific)
     conn = psycopg2.connect(
         host=os.environ.get('DB_HOST', '127.0.0.1'),
         user=os.environ.get('DB_USER', 'postgres'),
-        password=os.environ.get('DB_PASSWORD', '9555805060'),
+        password=os.environ.get('DB_PASSWORD'),
         dbname=os.environ.get('DB_NAME', 'postgres')
     )
     conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
@@ -35,7 +38,7 @@ try:
     conn = psycopg2.connect(
         host=os.environ.get('DB_HOST', '127.0.0.1'),
         user=os.environ.get('DB_USER', 'postgres'),
-        password=os.environ.get('DB_PASSWORD', '9555805060'),
+        password=os.environ.get('DB_PASSWORD'),
         dbname=os.environ.get('DB_NAME', 'ml_project')
     )
     cursor = conn.cursor()
